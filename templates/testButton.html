@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Buttons!</h1>
+<form method="POST">
+    <table>
+    {% for l1 in 'AKQJT9876' %}
+        <tr>
+        {% for l2 in 'AKQJT9876' %}
+            <td>
+            {% if l1 == l2 %}
+                <label class="switch">
+                  <input type="checkbox" name="{{l1+l2}}_button">
+                  <div class="slider">{{l1+l2}}</div>
+                </label>
+            {% elif 'AKQJT9876'.find(l1) < 'AKQJT9876'.find(l2) %}
+                <label class="switch">
+                  <input type="checkbox" name="{{l1+l2}}s_button">
+                  <div class="slider">{{l1+l2}}s</div>
+                </label>
+            {% else %}
+                <label class="switch">
+                  <input type="checkbox" name="{{l2+l1}}o_button">
+                  <div class="slider">{{l1+l2}}o</div>
+                </label>
+            {% endif %}
+            </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+
+    <button type="submit" name="handSubmit">Calculate</button>
+</form>
+
+{% endblock %}

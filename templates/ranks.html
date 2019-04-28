@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if language == 'chinese' %}
+{% if tripsFlag %}
+    <h2>手牌排位 (顺子 < 三条)</h2>
+{% else %}
+    <h2>手牌排位 (顺子 > 三条)</h2>
+{% endif %}
+<i>使用范围计算器</i>
+<br><br>
+<p>所提供的手牌牌面是通过梯次计算单挑底池胜率产生的，高排名指示着高胜率。
+首先我们计算手牌与100%范围的胜率，以此算出前50%的手牌，然后依次算出30%，20%，10和5%。
+最后的排名是依此得来的。</p>
+{% else %}
+{% if tripsFlag %}
+    <h2>Hand rankings (Straight < Three of a kind)</h2>
+{% else %}
+    <h2>Hand rankings (Straight > Three of a kind)</h2>
+{% endif %}
+<i>Used by range calculator</i>
+<br><br>
+<p>These rankings were decided by repeated simulations of 2 way pot equity - higher equity indicates higher rank. First, 100% of the range was simulated against each other, and the bottom 50% of hands there were given their ranks. Then the top 50% were run with each other, without the bottom 50%. This was repeated for the brackets of 30%, 20%, 10% and 5% , which means the better hands have a more accurate ranking.</p>
+{% endif %}
+
+
+<table class="rankTable">
+    <tr>
+        {% if language == 'chinese' %}
+            <th> 手牌 </th>
+            <th> 前X% </th>
+        {% else %}
+            <th> Hand </th>
+            <th> Top X% </th>
+        {% endif %}
+    </tr>
+{% if tripsFlag %}
+    <tr><td>AA</td><td>0.95%</td></tr>
+    <tr><td>KK</td><td>1.9%</td></tr>
+    <tr><td>AKs</td><td>2.54%</td></tr>
+    <tr><td>QQ</td><td>3.49%</td></tr>
+    <tr><td>AKo</td><td>5.4%</td></tr>
+    <tr><td>JJ</td><td>6.35%</td></tr>
+    <tr><td>AQs</td><td>6.98%</td></tr>
+    <tr><td>TT</td><td>7.94%</td></tr>
+    <tr><td>AQo</td><td>9.84%</td></tr>
+    <tr><td>AJs</td><td>10.48%</td></tr>
+    <tr><td>AJo</td><td>12.38%</td></tr>
+    <tr><td>ATs</td><td>13.02%</td></tr>
+    <tr><td>KQs</td><td>13.65%</td></tr>
+    <tr><td>99</td><td>14.6%</td></tr>
+    <tr><td>A9s</td><td>15.24%</td></tr>
+    <tr><td>KJs</td><td>15.87%</td></tr>
+    <tr><td>ATo</td><td>17.78%</td></tr>
+    <tr><td>KQo</td><td>19.68%</td></tr>
+    <tr><td>KTs</td><td>20.32%</td></tr>
+    <tr><td>KJo</td><td>22.22%</td></tr>
+    <tr><td>QJs</td><td>22.86%</td></tr>
+    <tr><td>A8s</td><td>23.49%</td></tr>
+    <tr><td>JTs</td><td>24.13%</td></tr>
+    <tr><td>A9o</td><td>26.03%</td></tr>
+    <tr><td>QTs</td><td>26.67%</td></tr>
+    <tr><td>KTo</td><td>28.57%</td></tr>
+    <tr><td>QJo</td><td>30.48%</td></tr>
+</table>
+<table class="rankTable">
+    <tr>
+        {% if language == 'chinese' %}
+            <th> 手牌 </th>
+            <th> 前X% </th>
+        {% else %}
+            <th> Hand </th>
+            <th> Top X% </th>
+        {% endif %}
+    </tr>
+    <tr><td>QTo</td><td>32.38%</td></tr>
+    <tr><td>JTo</td><td>34.29%</td></tr>
+    <tr><td>A7s</td><td>34.92%</td></tr>
+    <tr><td>88</td><td>35.87%</td></tr>
+    <tr><td>K9s</td><td>36.51%</td></tr>
+    <tr><td>A8o</td><td>38.41%</td></tr>
+    <tr><td>A6s</td><td>39.05%</td></tr>
+    <tr><td>T9s</td><td>39.68%</td></tr>
+    <tr><td>Q9s</td><td>40.32%</td></tr>
+    <tr><td>J9s</td><td>40.95%</td></tr>
+    <tr><td>A7o</td><td>42.86%</td></tr>
+    <tr><td>K9o</td><td>44.76%</td></tr>
+    <tr><td>T9o</td><td>46.67%</td></tr>
+    <tr><td>Q9o</td><td>48.57%</td></tr>
+    <tr><td>J9o</td><td>50.48%</td></tr>
+    <tr><td>K8s</td><td>51.11%</td></tr>
+    <tr><td>Q8s</td><td>51.75%</td></tr>
+    <tr><td>J8s</td><td>52.38%</td></tr>
+    <tr><td>K7s</td><td>53.02%</td></tr>
+    <tr><td>T8s</td><td>53.65%</td></tr>
+    <tr><td>98s</td><td>54.29%</td></tr>
+    <tr><td>A6o</td><td>56.19%</td></tr>
+    <tr><td>K8o</td><td>58.1%</td></tr>
+    <tr><td>77</td><td>59.05%</td></tr>
+    <tr><td>Q8o</td><td>60.95%</td></tr>
+    <tr><td>J8o</td><td>62.86%</td></tr>
+    <tr><td>T8o</td><td>64.76%</td></tr>
+</table>
+<table class="rankTable">
+    <tr>
+        {% if language == 'chinese' %}
+            <th> 手牌 </th>
+            <th> 前X% </th>
+        {% else %}
+            <th> Hand </th>
+            <th> Top X% </th>
+        {% endif %}
+    </tr>
+    <tr><td>K6s</td><td>65.4%</td></tr>
+    <tr><td>K7o</td><td>67.3%</td></tr>
+    <tr><td>98o</td><td>69.21%</td></tr>
+    <tr><td>Q7s</td><td>69.84%</td></tr>
+    <tr><td>J7s</td><td>70.48%</td></tr>
+    <tr><td>7Ts</td><td>71.11%</td></tr>
+    <tr><td>97s</td><td>71.75%</td></tr>
+    <tr><td>Q6s</td><td>72.38%</td></tr>
+    <tr><td>K6o</td><td>74.29%</td></tr>
+    <tr><td>Q7o</td><td>76.19%</td></tr>
+    <tr><td>J7o</td><td>78.1%</td></tr>
+    <tr><td>T7o</td><td>80.0%</td></tr>
+    <tr><td>97o</td><td>81.9%</td></tr>
+    <tr><td>87s</td><td>82.54%</td></tr>
+    <tr><td>Q6o</td><td>84.44%</td></tr>
+    <tr><td>96s</td><td>85.08%</td></tr>
+    <tr><td>J6s</td><td>85.71%</td></tr>
+    <tr><td>T6s</td><td>86.35%</td></tr>
+    <tr><td>66</td><td>87.3%</td></tr>
+    <tr><td>87o</td><td>89.21%</td></tr>
+    <tr><td>86s</td><td>89.84%</td></tr>
+    <tr><td>96o</td><td>91.75%</td></tr>
+    <tr><td>J6o</td><td>93.65%</td></tr>
+    <tr><td>T6o</td><td>95.56%</td></tr>
+    <tr><td>76s</td><td>96.19%</td></tr>
+    <tr><td>86o</td><td>98.1%</td></tr>
+    <tr><td>76o</td><td>100.0%</td></tr>
+{% else %}
+    <tr><td>AA</td><td>0.95%</td></tr>
+    <tr><td>KK</td><td>1.9%</td></tr>
+    <tr><td>AKs</td><td>2.54%</td></tr>
+    <tr><td>AKo</td><td>4.44%</td></tr>
+    <tr><td>QQ</td><td>5.4%</td></tr>
+    <tr><td>AQs</td><td>6.03%</td></tr>
+    <tr><td>AQo</td><td>7.94%</td></tr>
+    <tr><td>JJ</td><td>8.89%</td></tr>
+    <tr><td>AJs</td><td>9.52%</td></tr>
+    <tr><td>AJo</td><td>11.43%</td></tr>
+    <tr><td>KQs</td><td>12.06%</td></tr>
+    <tr><td>TT</td><td>13.02%</td></tr>
+    <tr><td>ATs</td><td>13.65%</td></tr>
+    <tr><td>A9s</td><td>14.29%</td></tr>
+    <tr><td>KJs</td><td>14.92%</td></tr>
+    <tr><td>KQo</td><td>16.83%</td></tr>
+    <tr><td>ATo</td><td>18.73%</td></tr>
+    <tr><td>QJs</td><td>19.37%</td></tr>
+    <tr><td>KTs</td><td>20.0%</td></tr>
+    <tr><td>KJo</td><td>21.9%</td></tr>
+    <tr><td>JTs</td><td>22.54%</td></tr>
+    <tr><td>QTs</td><td>23.17%</td></tr>
+    <tr><td>KTo</td><td>25.08%</td></tr>
+    <tr><td>A9o</td><td>26.98%</td></tr>
+    <tr><td>QJo</td><td>28.89%</td></tr>
+    <tr><td>QTo</td><td>30.79%</td></tr>
+    <tr><td>A8s</td><td>31.43%</td></tr>
+</table>
+<table class="rankTable">
+    <tr>
+        {% if language == 'chinese' %}
+            <th> 手牌 </th>
+            <th> 前X% </th>
+        {% else %}
+            <th> Hand </th>
+            <th> Top X% </th>
+        {% endif %}
+    </tr>
+    <tr><td>JTo</td><td>33.33%</td></tr>
+    <tr><td>99</td><td>34.29%</td></tr>
+    <tr><td>A7s</td><td>34.92%</td></tr>
+    <tr><td>K9s</td><td>35.56%</td></tr>
+    <tr><td>A8o</td><td>37.46%</td></tr>
+    <tr><td>T9s</td><td>38.1%</td></tr>
+    <tr><td>Q9s</td><td>38.73%</td></tr>
+    <tr><td>A6s</td><td>39.37%</td></tr>
+    <tr><td>J9s</td><td>40.0%</td></tr>
+    <tr><td>A7o</td><td>41.9%</td></tr>
+    <tr><td>K9o</td><td>43.81%</td></tr>
+    <tr><td>T9o</td><td>45.71%</td></tr>
+    <tr><td>88</td><td>46.67%</td></tr>
+    <tr><td>Q9o</td><td>48.57%</td></tr>
+    <tr><td>J9o</td><td>50.48%</td></tr>
+    <tr><td>K8s</td><td>51.11%</td></tr>
+    <tr><td>98s</td><td>51.75%</td></tr>
+    <tr><td>T8s</td><td>52.38%</td></tr>
+    <tr><td>Q8s</td><td>53.02%</td></tr>
+    <tr><td>J8s</td><td>53.65%</td></tr>
+    <tr><td>K7s</td><td>54.29%</td></tr>
+    <tr><td>A6o</td><td>56.19%</td></tr>
+    <tr><td>K8o</td><td>58.1%</td></tr>
+    <tr><td>98o</td><td>60.0%</td></tr>
+    <tr><td>T8o</td><td>61.9%</td></tr>
+    <tr><td>Q8o</td><td>63.81%</td></tr>
+    <tr><td>J8o</td><td>65.71%</td></tr>
+</table>
+<table class="rankTable">
+    <tr>
+        {% if language == 'chinese' %}
+            <th> 手牌 </th>
+            <th> 前X% </th>
+        {% else %}
+            <th> Hand </th>
+            <th> Top X% </th>
+        {% endif %}
+    </tr>
+    <tr><td>K6s</td><td>66.35%</td></tr>
+    <tr><td>K7o</td><td>68.25%</td></tr>
+    <tr><td>97s</td><td>68.89%</td></tr>
+    <tr><td>T7s</td><td>69.52%</td></tr>
+    <tr><td>Q7s</td><td>70.16%</td></tr>
+    <tr><td>J7s</td><td>70.79%</td></tr>
+    <tr><td>77</td><td>71.75%</td></tr>
+    <tr><td>Q6s</td><td>72.38%</td></tr>
+    <tr><td>K6o</td><td>74.29%</td></tr>
+    <tr><td>97o</td><td>76.19%</td></tr>
+    <tr><td>87s</td><td>76.83%</td></tr>
+    <tr><td>T7o</td><td>78.73%</td></tr>
+    <tr><td>Q7o</td><td>80.63%</td></tr>
+    <tr><td>J7o</td><td>82.54%</td></tr>
+    <tr><td>96s</td><td>83.17%</td></tr>
+    <tr><td>T6s</td><td>83.81%</td></tr>
+    <tr><td>Q6o</td><td>85.71%</td></tr>
+    <tr><td>J6s</td><td>86.35%</td></tr>
+    <tr><td>87o</td><td>88.25%</td></tr>
+    <tr><td>86s</td><td>88.89%</td></tr>
+    <tr><td>96o</td><td>90.79%</td></tr>
+    <tr><td>T6o</td><td>92.7%</td></tr>
+    <tr><td>J6o</td><td>94.6%</td></tr>
+    <tr><td>66</td><td>95.56%</td></tr>
+    <tr><td>76s</td><td>96.19%</td></tr>
+    <tr><td>86o</td><td>98.1%</td></tr>
+    <tr><td>76o</td><td>100.0%</td></tr>
+{% endif %}
+</table>
+
+
+{% endblock %}

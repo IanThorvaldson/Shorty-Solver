@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block head %}
+<script src="{{url_for('static', filename='rangeScript.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+    {% if language == 'chinese' %}
+    <h2> 范围胜率计算器 </h2>
+    {% else %}
+    <h2> Range equity calculator </h2>
+    {% endif %}
+    {% if language == 'chinese' %}
+    <p>卡牌输入语法：我们使用6，7，8，9，T, J, Q, K, A这些大写字母和数字来表达从6到Ace的卡牌。同时我们用小写字母c,d,h,s来分别表达草花(clubs)，方片(diamonds)，红桃(hearts)和黑桃(spades)这些花色。举例，红桃Ace就是Ah，方片8就是8d。它们在一起作为手牌就被表示为Ah8d</p>
+
+    <p>范围输入语法：当使用范围作为表达时，我们需要支持各种组合的存在。比如JT，表示着所有Jack-十的组合。
+    同时如果我们想区分表达同色和不同色的组合，我们需要用小写s表达同色组合，小写o表达不同色组合。比如JTs和JTo。我们使用逗号”,”来区分组合，比如如果我想表达Ace和King红桃和所有Jack十的组合我们用如下的表达方式：</p>
+    <p>AhKh,JT</p>
+
+    <p>对于范围，您也可以选择使用百分比来表达前x%的手牌，具体的手牌排名定义请在手牌牌面的界面查看。比如，如果您想输入前5%的手牌和口袋对6作为范围，那么您需要输入</p>
+    <p>5%,66</p>
+    {% else %}
+    <p>Card syntax: we use 6,7,8,9,T,J,Q,K,A to represent from 6 to Ace, and lower case letter c,d,h,s to represent suits for clubs,diamonds,hearts and spades. For example, Ace of heart would be Ah, 8 of diamond would be 8d. These together in a hand is Ah8d.</p>
+
+    <p>Range syntax: for range calculation, we also support combos, so syntax like JT for all combos of Jack Ten is accepted. 
+    Also, we can do JTs for all Jack-Ten suited, JTo for all Jack Ten offsuit. We use ',' to separate combos, so for Ace King of hearts and all JT combos, we do:</p>
+    <p>AhKh,JT</p>
+
+    <p>For range, you may also do a top percentage of hands, as defined in "Hand Rankings". This is done in the range calculator by simply putting x%, where x is the top percentage of hands you want to consider. So, for example, if we want the top 5% of hands and any pair of 6's:</p>
+    <p>5%,66</p>
+    {% endif %}
+    <div class="inputDiv">
+        <Form method="POST">
+            {% if numPlayers %}
+            <input name="players" hidden value={{numPlayers}} id="players">
+            {% else %}
+            <input name="players" hidden value=2 id="players">
+            {% endif %}
+            <table id="inputTable">
+            <tr>
+                {% if language == 'chinese' %}
+                <td class="inputHeading">已知的死牌</td>
+                {% else %}
+                <td class="inputHeading">Dead cards</td>
+                {% endif %}
+                <td><input name="dead" {% if dead %} value="{{dead}}" {% endif %}></td>
+            </tr>
+            <tr>
+                {% if language == 'chinese' %}
+                <td class="inputHeading">牌面</td>
+                {% else %}
+                <td class="inputHeading">Board</td>
+                {% endif %}
+                <td><input name="board" {% if board %} value="{{board}}" {% endif %}></td>
+            </tr>
+            <tr>
+                {% if language == 'chinese' %}
+                    {% if numPlayers %}
+                    <td class="inputHeading" id="playersDisplay">玩家: {{numPlayers}}</td>
+                    {% else %}
+                    <td class="inputHeading" id="playersDisplay">玩家: 2</td>
+                    {% endif %}
+                {% else %}
+                    {% if numPlayers %}
+                    <td class="inputHeading" id="playersDisplay">Players: {{numPlayers}}</td>
+                    {% else %}
+                    <td class="inputHeading" id="playersDisplay">Players: 2</td>
+                    {% endif %}
+                {% endif %}
+                <td>
+                    {% if not numPlayers or numPlayers < 6 %}
+                    <button type="button" name="addPlayer" id="addPlayer" onclick="addNewPlayer('{{language}}')">
+                        {% if language == 'chinese' %}增添玩家{% else %}Add Player{% endif %}</button>
+                    {% else %}
+                    <button type="button" name="addPlayer" id="addPlayer" onclick="addNewPlayer('{{language}}')" disabled>
+                        {% if language == 'chinese' %}增添玩家{% else %}Add Player{% endif %}</button>
+                    {% endif %}
+                    {% if not numPlayers or numPlayers == 2 %}
+                    <button type="button" name="remPlayer" id="remPlayer" onclick="removePlayer('{{language}}')" disabled>
+                        {% if language == 'chinese' %}移除玩家{% else %}Remove Player{% endif %}</button>
+                    {% else %}
+                    <button type="button" name="remPlayer" id="remPlayer" onclick="removePlayer('{{language}}')">
+                        {% if language == 'chinese' %}移除玩家{% else %}Remove Player{% endif %}</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% if numPlayers %}
+            {% for i in range(numPlayers) %}
+            <tr>
+                {% if language == 'chinese' %}
+                <td class="inputHeading">玩家 {{i + 1}}</td>
+                {% else %}
+                <td class="inputHeading">Player {{i + 1}}</td>
+                {% endif %}
+                <td><input name="p{{i + 1}}" value="{{players[i]}}"></td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                {% if language == 'chinese' %}
+                <td class="inputHeading">玩家 1</td>
+                {% else %}
+                <td class="inputHeading">Player 1</td>
+                {% endif %}
+                <td><input name="p1"></td>
+            </tr>
+            <tr>
+                {% if language == 'chinese' %}
+                <td class="inputHeading">玩家 2</td>
+                {% else %}
+                <td class="inputHeading">Player 2</td>
+                {% endif %}
+                <td><input name="p2"></td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td colspan="2"><div style="text-align: center">
+                    {% if language == 'chinese' %}
+                    <button type="submit" name="handSubmit" class="simButton" style="width: 100%">计算</button>
+                    {% else %}
+                    <button type="submit" name="handSubmit" class="simButton" style="width: 100%">Calculate</button>
+                    {% endif %}
+                </div></td>
+            </tr>
+        </table>
+        </Form>
+    </div>
+
+{% if error %}
+    {% if language == 'chinese' %}
+    <p class = "error">错误： {{error}}</p>
+    {% else %}
+    <p class = "error">ERROR: {{error}}</p>
+    {% endif %}
+{% endif %}
+
+{% if calcStats %}
+<p class = "calcStats">{{calcStats}}</p>
+{% endif %}
+
+
+{% if equities %}
+<div class="results">
+    {% if language == 'chinese' %}
+    <h2> 范围胜率结果： </h2>
+    {% else %}
+    <h2> Range equity results: </h2>
+    {% endif %}
+    <table>
+        {% for i in range(numPlayers) %}
+        <tr>
+            {% if language == 'chinese' %}
+                <td class="inputHeading">玩家 {{i + 1}}</td>
+            {% else %}
+                <td class="inputHeading">Player {{i + 1}}</td>
+            {% endif %}
+            <td>{{equities[i]*100}}%</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+{% endblock %}

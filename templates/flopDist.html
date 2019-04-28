@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script src="{{url_for('static', filename='Chart.bundle.min.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+{% if language == 'chinese' %}
+<h2>翻牌胜率分布</h2>
+{% else %}
+<h2>Flop Distribution</h2>
+{% endif %}
+
+<div class="inputDiv">
+    <Form method="POST">
+        <table id="inputTable">
+            {% if players %}
+            <tr>
+                <td class="inputHeading">{% if language == 'chinese' %}被模拟的手牌{% else %}Simulated Hand{% endif %}</td>
+                <td><input name="p1" value="{{players[0]}}"></td>
+            </tr>
+            <tr>
+                <td class="inputHeading">{% if language == 'chinese' %}对手范围{% else %}Opponent range{% endif %}</td>
+                <td><input name="p2" value="{{players[1]}}"></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td class="inputHeading">{% if language == 'chinese' %}被模拟的手牌{% else %}Simulated Hand{% endif %}</td>
+                <td><input name="p1"></td>
+            </tr>
+            <tr>
+                <td class="inputHeading">{% if language == 'chinese' %}对手范围{% else %}Opponent range{% endif %}</td>
+                <td><input name="p2"></td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td colspan="2"><div style="text-align: center;">
+                    {% if language == 'chinese' %}
+                    <button type="submit" name="handSubmit" class="simButton" style="width: 100%">模拟</button>
+                    {% else %}
+                    <button type="submit" name="handSubmit" class="simButton" style="width: 100%">Simulate</button>
+                    {% endif %}
+                </div></td>
+            </tr>
+        </table>
+    </Form>
+</div>
+
+{% if error %}
+    {% if language == 'chinese' %}
+    <p class = "error">错误： {{error}}</p>
+    {% else %}
+    <p class = "error">ERROR: {{error}}</p>
+    {% endif %}
+{% endif %}
+
+{% if calcStats %}
+<p class = "calcStats">{{calcStats}}</p>
+{% endif %}
+
+{% if results %}
+<div class="results" width="100%">
+    {% if language == 'chinese' %}
+    <h2> 翻牌胜率分布结果 </h2>
+    {% else %}
+    <h2> Flop distribution results: </h2>
+    {% endif %}
+    <div style = "width:60%; height: 100%">
+        <canvas id="myChart"></canvas>
+        <script>
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["0-10%", "10-20%", "20-30%", "30-40%", "40-50%", "50-60%", "60-70%", "70-80%", "80-90%", "90-100%",],
+            datasets: [{
+                {% if language == 'chinese' %}
+                label: '在此类别的翻牌',
+                {% else %}
+                label: 'Flops in this category',
+                {% endif %}
+                data: {{results}},
+                backgroundColor: [
+                    'rgba(33, 150, 243, 0.2)',
+                    'rgba(33, 150, 243, 0.2)',
+                    'rgba(33, 150, 243, 0.2)',
+                    'rgba(33, 150, 243, 0.2)',
+                    'rgba(33, 150, 243, 0.2)',
+                    'rgba(33, 150, 243, 0.2)',
+                    'rgba(33, 150, 243, 0.2)',
+                    'rgba(33, 150, 243, 0.2)',
+                    'rgba(33, 150, 243, 0.2)',
+                    'rgba(33, 150, 243, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(33, 150, 243, 1)',
+                    'rgba(33, 150, 243, 1)',
+                    'rgba(33, 150, 243, 1)',
+                    'rgba(33, 150, 243, 1)',
+                    'rgba(33, 150, 243, 1)',
+                    'rgba(33, 150, 243, 1)',
+                    'rgba(33, 150, 243, 1)',
+                    'rgba(33, 150, 243, 1)',
+                    'rgba(33, 150, 243, 1)',
+                    'rgba(33, 150, 243, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: {% if language == 'chinese' %}'胜率'{% else %}'Equity'{% endif %},
+                    },
+                }],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true,
+                        max:{{maximum}},
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: {% if language == 'chinese' %}'频率'{% else %}'Frequency'{% endif %},
+                    },
+                }]
+            },
+
+            tooltips: {
+                enabled: true
+            },
+            hover: {
+                animationDuration: 1
+            },
+            animation: {
+                duration: 1,
+                onComplete: function () {
+                    var chartInstance = this.chart,
+                        ctx = chartInstance.ctx;
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = "rgba(0, 0, 0, 1)";
+                    ctx.textBaseline = 'bottom';
+
+                    this.data.datasets.forEach(function (dataset, i) {
+                        var meta = chartInstance.controller.getDatasetMeta(i);
+
+                        total = 0;
+                        meta.data.forEach(function (bar, index) {
+                            total += dataset.data[index];
+                        });
+
+                        meta.data.forEach(function (bar, index) {
+                            var data = (Math.round((dataset.data[index]/total)*100)).toString()+ '%';
+                            ctx.fillText(data, bar._model.x, bar._model.y - 5);
+
+                        });
+                    });
+                }
+            },
+
+            legend: {
+                display: false
+            },
+        }
+    });
+    </script>
+    </div>
+    
+</div>
+{% endif %}
+
+
+{% endblock %}

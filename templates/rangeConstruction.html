@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if language == 'chinese' %}
+<h2>翻前范围构建</h2>
+{% else %}
+<h2>Preflop range constructor</h2>
+{% endif %}
+<div style = "float: left">
+  <form method="POST">
+    <table>
+    {% for l1 in 'AKQJT9876' %}
+      <tr>
+      {% for l2 in 'AKQJT9876' %}
+        <td>
+        {% if l1 == l2 %}
+          <label class="switch">
+            {% if l1+l2+'_button' in keys %}
+              <input type="checkbox" name="{{l1+l2}}_button" checked>
+            {% else %}
+              <input type="checkbox" name="{{l1+l2}}_button">
+            {% endif %}
+            <div class="slider">{{l1+l2}}</div>
+          </label>
+        {% elif 'AKQJT9876'.find(l1) < 'AKQJT9876'.find(l2) %}
+          <label class="switch">
+            {% if l1+l2+'s_button' in keys %}
+              <input type="checkbox" name="{{l1+l2}}s_button" checked>
+            {% else %}
+              <input type="checkbox" name="{{l1+l2}}s_button">
+            {% endif %}
+            <div class="slider">{{l1+l2}}s</div>
+          </label>
+        {% else %}
+          <label class="switch">
+            {% if l2+l1+'o_button' in keys %}
+              <input type="checkbox" name="{{l2+l1}}o_button" checked>
+            {% else %}
+              <input type="checkbox" name="{{l2+l1}}o_button">
+            {% endif %}
+            <div class="slider">{{l2+l1}}o</div>
+          </label>
+        {% endif %}
+        </td>
+      {% endfor %}
+      </tr>
+    {% endfor %}
+    </table>
+
+    <div style="text-align: center">
+      {% if language == 'chinese' %}
+      <button type="submit" name="rangeConstructButton" style="width: 50%" class="simButton">模拟</button>
+      {% else %}
+      <button type="submit" name="rangeConstructButton" style="width: 50%" class="simButton">Simulate</button>
+      {% endif %}
+    </div>
+  </form>
+
+  {% if error %}
+    {% if language == 'chinese' %}
+    <p class = "error">错误： {{error}}</p>
+    {% else %}
+    <p class = "error">ERROR: {{error}}</p>
+    {% endif %}
+  {% endif %}
+
+  {% if calcStats %}
+  <p class = "calcStats">{{calcStats}}</p>
+  {% endif %}
+</div>
+
+
+
+
+{% if equities %}
+<div style = "float: left; margin-left: 5%">
+
+
+  {% for equity in range(5) %}
+    {% if language == 'chinese' %}
+    <h3 style = "margin-top: 0px; margin-bottom: 0px">单挑 vs 前{{['5%', '10%', '20%', '50%', '100%'][equity]}}</h3>
+    {% else %}
+    <h3 style = "margin-top: 0px; margin-bottom: 0px">Heads up vs. {{['5%', '10%', '20%', '50%', '100%'][equity]}}</h3>
+    {% endif %}
+    <table>
+        <tr>
+            {% if language == 'chinese' %}
+            <td class="inputHeading">你</td>
+            {% else %}
+            <td class="inputHeading">You</td>
+            {% endif %}
+            <td>{{equities[equity][0]*100}}%</td>
+        </tr>
+        <tr>
+            {% if language == 'chinese' %}
+            <td class="inputHeading">对手</td>
+            {% else %}
+            <td class="inputHeading">Opponent</td>
+            {% endif %}
+            <td>{{equities[equity][1]*100}}%</td>
+        </tr>
+    </table>
+    <br><br>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

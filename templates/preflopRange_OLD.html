@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Preflop range equity calculator</h1>
+<form method="POST">
+    <table>
+    {% for l1 in 'AKQJT9876' %}
+        <tr>
+        {% for l2 in 'AKQJT9876' %}
+            <td>
+            {% if l1 == l2 %}
+                <label class="switch">
+                  {% if l1+l2+'_button' in keys %}
+                  <input type="checkbox" name="{{l1+l2}}_button" checked>
+                  {% else %}
+                  <input type="checkbox" name="{{l1+l2}}_button">
+                  {% endif %}
+                  <div class="slider">{{l1+l2}}</div>
+                </label>
+            {% elif 'AKQJT9876'.find(l1) < 'AKQJT9876'.find(l2) %}
+                <label class="switch">
+                  {% if l1+l2+'s_button' in keys %}
+                  <input type="checkbox" name="{{l1+l2}}s_button" checked>
+                  {% else %}
+                  <input type="checkbox" name="{{l1+l2}}s_button">
+                  {% endif %}
+                  <div class="slider">{{l1+l2}}s</div>
+                </label>
+            {% else %}
+                <label class="switch">
+                  {% if l2+l1+'o_button' in keys %}
+                  <input type="checkbox" name="{{l2+l1}}o_button" checked>
+                  {% else %}
+                  <input type="checkbox" name="{{l2+l1}}o_button">
+                  {% endif %}
+                  <div class="slider">{{l1+l2}}o</div>
+                </label>
+            {% endif %}
+            </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+
+    <select name="opponentRange">
+      <option value = "100%">100%</option>
+      <option value = "50%" disabled>50%</option>
+      <option value = "20%" disabled>20%</option>
+      <option value = "10%" disabled>10%</option>
+      <option value = "5%" disabled>5%</option>
+    </select>
+    <button type="submit" name="preflopRangeSubmit" class="simButton">Calculate</button>
+</form>
+
+{% if error %}
+<p class = "error">ERROR: {{error}}</p>
+{% endif %}
+
+{% if equities %}
+<div class="results">
+    <h2> Range equity results: </h2>
+    <table>
+        {% for i in range(numPlayers) %}
+        <tr>
+            <td class="inputHeading">Player {{i + 1}}</td>
+            <td>{{equities[i]*100}}%</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+{% endblock %}

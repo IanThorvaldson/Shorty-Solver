@@ -1,0 +1,1 @@
+g++ -std=c++11 -Wall -Werror -O2 -o ShortySolver Hand.cpp Helper.cpp main.cpp

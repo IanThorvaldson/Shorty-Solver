@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if language == 'chinese' %}
+<h2>短牌辅助器简介</h2>
+<i>对于此教程，我们假设您以及了解基本的德州扑克游戏规则。</i>
+<h3>短牌游戏简介</h3>
+
+<p>短牌德州是德州扑克的一个变种，我们将一副牌里面的所以2-5的牌移除，使一副牌从52张牌变为36张。
+因为牌的改变，短牌德州扑克的规则对比常规德州有一些改变。
+牌力大小顺序如下：</p>
+
+<h3>三条 > 顺子:</h3>
+
+<ol>
+    <li>高牌</li>
+    <li>一对</li>
+    <li>两队</li>
+    <li>顺子</li>
+    <li>三条</li>
+    <li>葫芦</li>
+    <li>同花</li>
+    <li>四条</li>
+    <li>同花顺</li>
+    <li>皇家同花顺</li>
+</ol>
+
+<h3> 顺子 > 三条:</h3>
+
+<ol>
+    <li>高牌</li>
+    <li>一对</li>
+    <li>两队</li>
+    <li>三条</li>
+    <li>顺子</li>
+    <li>葫芦</li>
+    <li>同花</li>
+    <li>四条</li>
+    <li>同花顺</li>
+    <li>皇家同花顺</li>
+</ol>
+
+
+<p>
+{% if tripsFlag %}
+您现在使用的规则是三条 > 顺子，你可以通过点击界面右上角的按钮随时改变此规则。
+{% else %}
+您现在使用的规则是顺子 > 三条，你可以通过点击界面右上角的按钮随时改变此规则。
+{% endif %}
+</p>
+
+
+<p>同时，因为2-5已被移除，现在最小的顺子是由A，6，7，8，9组成的，也就是说A也可以作为5使用。</p>
+
+<p>关于输入语法教程，请参见教程页面</p>
+
+<h3>联系我们:</h3>
+
+<p> 邮箱: shortySolver@outlook.com </p>
+{% else %}
+<h2>Introduction to shorty solver</h2>
+<i>For this tutorial, we will assume you know the rules of standard Texas Holdem poker.</i>
+<h3>Game Intro</h3>
+
+<p>Short deck poker is a new variant of Texas Holdem, it removes the 2-5 from each suit, make the deck 36 cards instead of 52.
+Since the number of cards changes, the rules of the game are slightly different with standard Texas holdem.
+The hand rankings we are using are the following:</p>
+
+<h3>Three of a kind > Straight:</h3>
+
+<ol>
+    <li>High Card</li>
+    <li>One Pair</li>
+    <li>Two Pairs</li>
+    <li>Straight</li>
+    <li>Three of a kind</li>
+    <li>Full House</li>
+    <li>Flush</li>
+    <li>Four of a kind</li>
+    <li>Straight Flush</li>
+    <li>Royal Flush</li>
+</ol>
+
+<h3> Straight > Three of a kind:</h3>
+
+<ol>
+    <li>High Card</li>
+    <li>One Pair</li>
+    <li>Two Pairs</li>
+    <li>Three of a kind</li>
+    <li>Straight</li>
+    <li>Full House</li>
+    <li>Flush</li>
+    <li>Four of a kind</li>
+    <li>Straight Flush</li>
+    <li>Royal Flush</li>
+</ol>
+
+<p>
+{% if tripsFlag %}
+The current ruleset is three of a kind > straight. You can change this on the top-right of the page at any time.
+{% else %}
+The current ruleset is straight > three of a kind. You can change this on the top-right of the page at any time.
+{% endif %}
+</p>
+
+
+<p>Also, since 2-5 are removed from the deck, now Ace can also be used as a 5 for straight. Thus, A,6,7,8,9 is also a straight.</p>
+
+<p>For instructionss on syntax, please see the tutorial.</p>
+
+<h3>Contact us:</h3>
+
+<p> Email: shortySolver@outlook.com </p>
+{% endif %}
+
+{% endblock %}

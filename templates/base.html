@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+
+<head>
+  {% if language == 'chinese' %}
+    <title>短牌德州破解器</title>
+  {% else %}
+    <title>Shorty Solver</title>
+  {% endif %}
+    <link rel="stylesheet" type="text/css" href="/static/style.css" />
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body>
+  <div class="contentDiv">
+    <div>
+      {% if language == 'chinese' %}
+      <h1 style="text-align: center;"> 短牌德州破解器 </h1>
+      {% else %}
+      <h1 style="text-align: center;"> Shorty Solver </h1>
+      {% endif %}
+    </div>
+    <div class="clearfix">
+      <div style="justify-content: right; text-align: right; width: 20%; height: auto; float: right; margin-bottom: 0px;">
+        {% if language == 'chinese' %}
+          <!-- <p style = "text-align: center; font-weight: bold"> chineseTODO(Ruleset): </p> -->
+
+          <p style = "text-align: center;"> 顺子 
+          {% if tripsFlag %}
+          <a class = "ruleToggleButton" href = "/straight/{{pageName}}?lang=chinese"><</a>
+          {% else %}
+          <a class = "ruleToggleButton" href = "/trips/{{pageName}}?lang=chinese">></a>
+          {% endif %}
+          三条 </p>
+
+        {% else %}
+          <!-- <p style = "text-align: center; font-weight: bold"> Ruleset: </p> -->
+
+          <p style = "text-align: center;"> Straight 
+          {% if tripsFlag %}
+          <a class = "ruleToggleButton" href = "/straight/{{pageName}}"><</a>
+          {% else %}
+          <a class = "ruleToggleButton" href = "/trips/{{pageName}}">></a>
+          {% endif %}
+          Three of a kind </p>
+        {% endif %}
+      </div>
+      <div class = "langToggle" style="justify-content: right; text-align: right; width: 20%; float: left; margin-bottom: 0px;">
+        {% if language == 'chinese' %}
+        <p style = "text-align: center;"> <a style="text-decoration: none" href="/{{'trips' if tripsFlag else 'straight'}}/{{pageName}}"> English | <b>中文</b> </a> </p>
+        {% else %}
+        <p style = "text-align: center;"> <a style="text-decoration: none" href="/{{'trips' if tripsFlag else 'straight'}}/{{pageName}}?lang=chinese"> <b>English</b> | 中文 </a> </p>
+        {% endif %}
+      </div>
+
+    </div>
+    <br>
+    <div style="display: flex; justify-content: center; float: top; clear: both">
+      <div class="navbar">
+        {% if language == 'chinese' %}
+          {% if tripsFlag %}
+            <ul>
+              <li><a href="/trips/intro?lang=chinese">介绍</a></li>
+              <li><a href="/trips/hand?lang=chinese">手牌胜率</a></li>
+              <li><a href="/trips/range?lang=chinese">范围胜率</a></li>
+              <li><a href="/trips/rangeConstruction?lang=chinese">翻前范围构建</a></li>
+              <li><a href="/trips/flopDistribution?lang=chinese">翻牌胜率分布</a></li>
+              <li><a href="/trips/ranks?lang=chinese">手牌排名</a></li>
+              <li><a href="/trips/tutorial?lang=chinese">教学</a></li>
+            </ul>
+          {% else %}
+            <ul>
+              <li><a href="/straight/intro?lang=chinese">介绍</a></li>
+              <li><a href="/straight/hand?lang=chinese">手牌胜率</a></li>
+              <li><a href="/straight/range?lang=chinese">范围胜率</a></li>
+              <li><a href="/straight/rangeConstruction?lang=chinese">翻前范围构建</a></li>
+              <li><a href="/straight/flopDistribution?lang=chinese">翻牌胜率分布</a></li>
+              <li><a href="/straight/ranks?lang=chinese">手牌排名</a></li>
+              <li><a href="/straight/tutorial?lang=chinese">教学</a></li>
+            </ul>
+          {% endif %}
+        {% else %}
+          {% if tripsFlag %}
+            <ul>
+              <li><a href="/trips/intro">Intro</a></li>
+              <li><a href="/trips/hand">Hand Equity</a></li>
+              <li><a href="/trips/range">Range Equity</a></li>
+              <li><a href="/trips/rangeConstruction">Preflop Range Construction</a></li>
+              <li><a href="/trips/flopDistribution">Flop Distribution</a></li>
+              <li><a href="/trips/ranks">Hand Rankings</a></li>
+              <li><a href="/trips/tutorial">Tutorial</a></li>
+            </ul>
+          {% else %}
+            <ul>
+              <li><a href="/straight/intro">Intro</a></li>
+              <li><a href="/straight/hand">Hand Equity</a></li>
+              <li><a href="/straight/range">Range Equity</a></li>
+              <li><a href="/straight/rangeConstruction">Preflop Range Construction</a></li>
+              <li><a href="/straight/flopDistribution">Flop Distribution</a></li>
+              <li><a href="/straight/ranks">Hand Rankings</a></li>
+              <li><a href="/straight/tutorial">Tutorial</a></li>
+            </ul>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+    <div style="clear:both;"></div>
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+
+</html>

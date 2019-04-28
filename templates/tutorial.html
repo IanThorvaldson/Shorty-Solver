@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if language == 'chinese' %}
+<h2>短牌破解器教学</h2>
+
+<h3>软件功能</h3>
+
+<h4>变更游戏规则</h4>
+<p>您可以使用右上角的按钮来改变当前短牌游戏规则，可以在顺子大于三条和三条大于顺子两种规则中切换。按钮的当前状态就是当前软件所使用的游戏规则。</p>
+
+<h4>手牌胜率计算器</h4>
+<p>更定最多6位玩家的精确手牌（可以提供最多5张公共牌牌面），我们可以计算每位玩家的当前胜率。</p>
+
+<h4>范围胜率计算器</h4>
+<p>给定每位玩家一定范围的手牌，我们计算出当前范围之间的胜率。</p>
+
+<h4>翻牌前范围构建</h4>
+<p>从手牌矩阵里选择手牌，可以模拟出选择的手牌占总手牌的百分比，并计算出对战前百分之5%，10%，20%，50%，100%的范围胜率。</p>
+
+<h4>手牌翻牌胜率分布</h4>
+<p>此功能帮助您了解特定手牌在对战对手手牌范围时，在翻牌的胜率表现分布。</p>
+<p>给与玩家一个精确手牌，给与对手一个范围，点击模拟，一个柱状分布图将展示您的手牌在对战对手范围时的翻牌胜率分布。</p>
+
+
+<h3>输入语法</h3>
+
+<p>卡牌输入语法：我们使用6，7，8，9，T, J, Q, K, A这些大写字母和数字来表达从6到Ace的卡牌。同时我们用小写字母c,d,h,s来分别表达草花(clubs)，方片(diamonds)，红桃(hearts)和黑桃(spades)这些花色。举例，红桃Ace就是Ah，方片8就是8d。它们在一起作为手牌就被表示为Ah8d</p>
+
+
+<p>范围输入语法：当使用范围作为表达时，我们需要支持各种组合的存在。比如JT，表示着所有Jack-十的组合。
+同时如果我们想区分表达同色和不同色的组合，我们需要用小写s表达同色组合，小写o表达不同色组合。比如JTs和JTo。我们使用逗号”,”来区分组合，比如如果我想表达Ace和King红桃和所有Jack十的组合我们用如下的表达方式：</p>
+<p>AhKh,JT</p>
+
+<p>对于范围，您也可以选择使用百分比来表达前x%的手牌，具体的手牌排名定义请在手牌牌面的界面查看。比如，如果您想输入前5%的手牌和口袋对6作为范围，那么您需要输入</p>
+<p>5%,66</p>
+{% else %}
+<h2>Tutorial of ShortySolver Software</h2>
+
+<h3>Software features</h3>
+
+<h4>Changing ruleset</h4>
+You may change the ruleset at any time by using the button on the top-right of any page. This will also display the current ruleset.
+
+<h4>Poker Hand odds calculator</h4>
+<p>Given player specific hands (up to 6 players) with or without community card information (0-5 board cards), and we find out the winning odds of each player. Each player has exact two cards in their hand</p>
+
+<h4>Range calculator</h4>
+<p>Given different sets of possible poker hands, find out the winning equities of each set (ranges).</p>
+
+<h4>Preflop range constructor</h4>
+<p>Select the preflop range you want from the hands matrix, and calculate to find heads up equities vs. top 5%, 10%, 20%, 50% and 100% of hands.</p>
+
+<h4>Flop Equity Distribution</h4>
+<p>This feature helps you to understand how often a hand has certain equity on the flop against a range of hands in heads-up pots.</p>
+<p>Giving a specific hand for player1 and provide a range of hands for opponents, you will get a bar chart which shows often your hand has certain equity on the flop.</p>
+
+
+<h3>Input Syntax</h3>
+
+<p>Card syntax: we use 6,7,8,9,T,J,Q,K,A to represent from 6 to Ace, and lower case letter c,d,h,s to represent suits for clubs,diamonds,hearts and spades. For example, Ace of heart would be Ah, 8 of diamond would be 8d. These together in a hand is Ah8d.</p>
+
+
+<p>Range syntax: for range calculation, we also support combos, so syntax like JT for all combos of Jack Ten is accepted. 
+Also, we can do JTs for all Jack-Ten suited, JTo for all Jack Ten offsuit. We use ',' to separate combos, so for Ace King of hearts and all JT combos, we do:</p>
+<p>AhKh,JT</p>
+
+<p>For range, you may also do a top percentage of hands, as defined in "Hand Rankings". This is done in the range calculator by simply putting x%, where x is the top percentage of hands you want to consider. So, for example, if we want the top 5% of hands and any pair of 6's:</p>
+<p>5%,66</p>
+
+{% endif %}
+
+{% endblock %}
